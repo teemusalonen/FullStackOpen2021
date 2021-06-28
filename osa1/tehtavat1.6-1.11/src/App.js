@@ -8,6 +8,7 @@ const Button = ({text, handleClick}) => {
   )
 }
 
+
 const StatisticLine = ({text, value}) => {
   if(text === 'positive'){
     return (
@@ -54,6 +55,7 @@ const Statistics = ({good, neutral, bad}) => {
     </div>
   )
 }
+
 
 const App = () => {
   const [good, setGood] = useState(0)

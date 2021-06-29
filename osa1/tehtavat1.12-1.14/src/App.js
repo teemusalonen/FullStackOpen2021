@@ -1,5 +1,14 @@
 import React, { useState } from 'react'
 
+const MostVoted = ({ points }) => {
+  const copy = [...points]
+  return(
+    <div>
+      <h1>Anecdote with the most votes</h1>
+    </div>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -24,6 +33,7 @@ const App = () => {
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       {anecdotes[selected]}
       <br />
       has {points[selected]} points
@@ -34,6 +44,8 @@ const App = () => {
       <button onClick={() => setSelected(Math.floor((Math.random() * 7)))}>
         next anecdote
       </button>
+
+      <MostVoted points={points} />
     </div>
   )
 }

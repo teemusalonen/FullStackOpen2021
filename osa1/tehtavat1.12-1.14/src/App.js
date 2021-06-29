@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 
-const MostVoted = ({ points, anecdotes }) => {
+const MostVoted = ({initial, points, anecdotes }) => {
   const copy = [...points]
   let biggest = 0
-  let index = 0
+  let index = initial
   for(let i = 1; i < copy.length; i++){
     if(copy[i] >  biggest){
       biggest = copy[i]
@@ -59,7 +59,7 @@ const App = () => {
         next anecdote
       </button>
 
-      <MostVoted points={points} anecdotes={anecdotes} />
+      <MostVoted initial={selected} points={points} anecdotes={anecdotes} />
     </div>
   )
 }

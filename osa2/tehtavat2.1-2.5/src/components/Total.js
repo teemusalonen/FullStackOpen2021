@@ -3,9 +3,10 @@ import React from 'react'
 const Total = ({ parts }) => {
 
     return(
-      //toteutettava mappaamalla!!!!
       <div>
-        <p>Number of exercises {parts[0].exercises + parts[1].exercises + parts[2].exercises}</p>
+        <p>
+          <b>total of {parts.reduce((sum, part) => sum + part.exercises, 0)} exercises </b>
+        </p>    
       </div>
     )
 }

@@ -3,6 +3,8 @@ import Content from './Content'
 import Header from './Header'
 import Total from './Total'
 
+//tehty tehtävä 2.5 jo kohdassa 2.1 =)
+
 const Course = ({ course }) => {
 
     return (

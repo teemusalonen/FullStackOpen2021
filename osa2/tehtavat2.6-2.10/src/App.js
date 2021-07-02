@@ -11,11 +11,19 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
     const personObject = {
-      name: newName
+        name: newName
     }
 
-    setPersons(persons.concat(personObject))
-    setNewName('')
+    console.log('includes(newName) palauttaa:', persons.includes(newName))
+    console.log('persons', persons)
+    console.log('newName = ', newName)
+
+    if(!persons.find(person => person.name === newName)){
+      setPersons(persons.concat(personObject))
+      setNewName('')
+    }else{
+      window.alert( `${newName} is already added to the phonebook`);
+    }  
   }
 
   const handleInput = (event) => {

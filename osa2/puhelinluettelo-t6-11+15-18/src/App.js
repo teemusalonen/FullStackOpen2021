@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Persons from './Components/Persons'
 import Filter from './Components/Filter'
 import PersonForm from './Components/PersonForm'
-import axios from 'axios'
 import personService from './Services/personService'
 
 const App = () => {
@@ -15,10 +14,8 @@ const App = () => {
     personService      
       .getAll()      
       .then(initialPersons => {        
-        console.log('olemme useEffectin then-lauseen sisällä')
         setPersons(initialPersons)      
       })
-      .catch(console.log('useEffectin catch'))
   }, [])
 
   const addPerson = (event) => {
@@ -27,12 +24,10 @@ const App = () => {
         name: newName,
         number: newNumber
     }
-    console.log('olemme addPersonissa')
     personService
       .create(personObject)
         .then(returnedPerson => {
           if(!persons.find(person => person.name === personObject.newName)) {
-            console.log('olemme if-lausessa addPersonissa')
             setPersons(persons.concat(returnedPerson))
             setNewName('')
             setNewNumber('')
@@ -40,7 +35,6 @@ const App = () => {
             window.alert( `${newName} is already added to the phonebook`);
           }
         })
-        .catch(console.log('olemme addPersonin catchissa'))
   }
 
   const handleNameInput = (event) => {
@@ -55,8 +49,20 @@ const App = () => {
     setSearchValue(event.target.value)
   }
 
-  const showSearch = persons.filter(person => person.name.toLowerCase().includes(searchValue.toLowerCase()))
+  const handleDelete = (id, person) => {
+    if (window.confirm(`Do you really want to delete ${person.name}?`)) {
+      const deleteResponse = personService.del(person.id)
+      deleteResponse.then(res => {
+        if(res.status === 200){
+          const copy = persons.filter(p => p.name !== person.name)
+          setPersons(copy)
+        }
+      })
+    }
+  }
 
+  const showSearch = persons.filter(person => person.name.toLowerCase().includes(searchValue.toLowerCase()))
+  
   const personsToShow = (searchValue === '' || showSearch === []) ? persons : showSearch
 
   return (
@@ -77,7 +83,7 @@ const App = () => {
 
       <h3>Numbers</h3>
       
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} handleDelete={handleDelete} />
     </div>
   )
 }

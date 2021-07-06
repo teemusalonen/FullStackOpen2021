@@ -3,6 +3,7 @@ import Persons from './Components/Persons'
 import Filter from './Components/Filter'
 import PersonForm from './Components/PersonForm'
 import axios from 'axios'
+import personService from './Services/personService'
 
 const App = () => {
   const [ persons, setPersons] = useState([]) 
@@ -10,15 +11,15 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ searchValue, setSearchValue] = useState('')
   
-  const hook = () => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+  useEffect(() => {
+    personService      
+      .getAll()      
+      .then(initialPersons => {        
+        console.log('olemme useEffectin then-lauseen sisällä')
+        setPersons(initialPersons)      
       })
-  }
-
-  useEffect(hook, [])
+      .catch(console.log('useEffectin catch'))
+  }, [])
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -26,14 +27,20 @@ const App = () => {
         name: newName,
         number: newNumber
     }
-
-    if(!persons.find(person => person.name === newName)){
-      setPersons(persons.concat(personObject))
-      setNewName('')
-      setNewNumber('')
-    }else{
-      window.alert( `${newName} is already added to the phonebook`);
-    }  
+    console.log('olemme addPersonissa')
+    personService
+      .create(personObject)
+        .then(returnedPerson => {
+          if(!persons.find(person => person.name === personObject.newName)) {
+            console.log('olemme if-lausessa addPersonissa')
+            setPersons(persons.concat(returnedPerson))
+            setNewName('')
+            setNewNumber('')
+          }else{
+            window.alert( `${newName} is already added to the phonebook`);
+          }
+        })
+        .catch(console.log('olemme addPersonin catchissa'))
   }
 
   const handleNameInput = (event) => {

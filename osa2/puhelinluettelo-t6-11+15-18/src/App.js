@@ -24,17 +24,31 @@ const App = () => {
         name: newName,
         number: newNumber
     }
-    personService
+    const equals = persons.find(person => person.name === personObject.name)
+    if(!equals){ 
+      personService 
       .create(personObject)
         .then(returnedPerson => {
-          if(!persons.find(person => person.name === personObject.newName)) {
-            setPersons(persons.concat(returnedPerson))
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
+    }else{
+      if(window.confirm(`${newName} is already added to the phonebook, replace the old number with the new one?`)){
+        personService
+        .replace(personObject, equals.id)
+        .then(res => {
+          if(res.status === 200){
+            const copy = [...persons]
+            personObject.id = equals.id
+            copy[equals.id-1] = personObject
+            setPersons(copy)
             setNewName('')
             setNewNumber('')
-          }else{
-            window.alert( `${newName} is already added to the phonebook`);
           }
-        })
+        })  
+      }
+    }
   }
 
   const handleNameInput = (event) => {

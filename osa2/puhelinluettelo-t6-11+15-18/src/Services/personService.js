@@ -14,12 +14,18 @@ const create = newObject => {
 const del = id => {
     const request = axios.delete(`${url}/${id}`)
     return request.then(response => response)
-}   
+}  
+
+const replace = (person, id) => {
+    const request = axios.put(`${url}/${id}`, person)
+    return request.then(response => response)
+}
 
 const e = {
     getAll,
     create,
-    del
+    del,
+    replace
 }
 
 export default e

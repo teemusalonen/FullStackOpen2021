@@ -1,4 +1,4 @@
-.error {
+.errorIn {
   color: red;
   background: rgb(255, 168, 168);
   font-size: 20px;
@@ -6,6 +6,18 @@
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
+  animation: fadeIn 0.5s ease-in both;
+}
+
+.errorOut {
+  color: red;
+  background: rgb(255, 168, 168);
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  animation: fadeOut 0.5s ease-in both;
 }
 
 .successIn {

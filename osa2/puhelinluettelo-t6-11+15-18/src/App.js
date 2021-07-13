@@ -22,15 +22,15 @@ const App = () => {
       })
   }, [])
 
-  // metodi notificaation animaatioille
-  const renderSuccessAnimation = () => {
-    setNotificationType('successIn')
+  // (ylimääräinen) metodi notificaation animaatioille
+  const renderAnimation = type => {
+    setNotificationType(`${type}In`)
     setTimeout(() => {
-      setNotificationType('successOut')
-    }, 2000)
+      setNotificationType(`${type}Out`)
+    }, 3000)
     setTimeout(() => {
       setNotificationMsg(null)
-    }, 2500)  
+    }, 3500)  
   }
 
   const addPerson = (event) => {
@@ -48,7 +48,7 @@ const App = () => {
           setNewName('')
           setNewNumber('')
           setNotificationMsg(`${returnedPerson.name} was succesfully added`)
-          renderSuccessAnimation() 
+          renderAnimation('success') 
         })
     }else{
       if(window.confirm(`${newName} is already added to the phonebook, replace the old number with the new one?`)){
@@ -63,8 +63,16 @@ const App = () => {
             setNewName('')
             setNewNumber('')
             setNotificationMsg(`${personObject.name} was succesfully changed`)
-            renderSuccessAnimation()
+            renderAnimation('success')
           }
+        })
+        .catch(() => {
+          setNotificationMsg(`${newName} has already been deleted from server and the phonebook was updated`)
+          renderAnimation('error')
+          const copy = persons.filter(p => p.name !== newName)
+          setPersons(copy)
+          setNewName('')
+          setNewNumber('')
         })  
       }
     }
@@ -90,8 +98,14 @@ const App = () => {
           const copy = persons.filter(p => p.name !== person.name)
           setPersons(copy)
           setNotificationMsg(`${person.name} was succesfully deleted`)
-          renderSuccessAnimation()
+          renderAnimation('success')
         }
+      })  
+      deleteResponse.catch(() => {
+        setNotificationMsg(`${person.name} has already been deleted from server and the phonebook was updated`)
+        renderAnimation('error')
+        const copy = persons.filter(p => p.name !== person.name)
+        setPersons(copy)
       })
     }
   }

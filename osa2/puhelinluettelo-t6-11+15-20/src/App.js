@@ -56,7 +56,6 @@ const App = () => {
         .replace(personObject, equals.id)
         .then(res => {
           if(res.status === 200 || res.status === 204){
-            console.log('ollaan saatu status 200 saatana', res)
             personObject.id = res.data.id
             const copy = [...persons]
             copy[copy.indexOf(persons.find(p => p.name === res.data.name))] = personObject

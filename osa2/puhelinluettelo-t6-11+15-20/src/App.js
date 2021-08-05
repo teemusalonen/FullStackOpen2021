@@ -50,6 +50,10 @@ const App = () => {
           setNotificationMsg(`${returnedPerson.name} was succesfully added`)
           renderAnimation('success') 
         })
+        .catch(error => {
+          setNotificationMsg(error.response.data.error)
+          renderAnimation('error')
+        })
     }else{
       if(window.confirm(`${newName} is already added to the phonebook, replace the old number with the new one?`)){
         personService

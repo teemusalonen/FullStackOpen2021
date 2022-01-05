@@ -1,0 +1,11 @@
+# Sequence diagram luotava www.websequencediagrams.com:ssa
+
+title Fullstack open 2021 osa 0 t6
+
+selain->palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+palvelin-->selain: HTTP 201 (created)
+
+note over selain:
+Sivua ei enää ladata uudelleen,
+sillä kyseessä on SPA
+end note

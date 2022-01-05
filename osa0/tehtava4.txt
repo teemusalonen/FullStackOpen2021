@@ -1,0 +1,31 @@
+# Sequence diagram luotava www.websequencediagrams.com:ssa
+
+title Fullstack open 2021 osa 0 t4
+
+selain->palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+palvelin-->selain: HTTP 302 (found)
+
+note over selain:
+Haetaan uudestaan notet
+POST:in jälkeen
+end note
+
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+palvelin-->selain: HTML-koodi
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+palvelin-->selain: main.css
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+palvelin-->selain: main.js
+
+note over selain:
+Selain alkaa ajaa JavaScript-koodia,
+joka pyytää JSON-datan palvelimelta
+end note
+
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+palvelin-->selain: [{ content: "new note", date: "2021-01-01" }, ...]
+
+note over selain:
+Selain suorittaa tapahtumankäsittelijän,
+joka renderöi muistiinpanot näytölle
+end note
